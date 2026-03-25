@@ -1,0 +1,471 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* pages/user/user.wxss */
+.user-container {
+    min-height: 100vh;
+    background-color: #f7f7f7;
+}
+/* 用户信息头部 */
+.user-header {
+    position: relative;
+    padding-top: 60rpx;
+    padding-bottom: 30rpx;
+    margin-bottom: 20rpx;
+}
+.header-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 220rpx;
+    background: linear-gradient(to right, var(--primary-color), #ff9999);
+    z-index: -1;
+    border-bottom-left-radius: 30% 20rpx;
+    border-bottom-right-radius: 30% 20rpx;
+}
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.avatar-box {
+    width: 150rpx;
+    height: 150rpx;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #fff;
+    margin-bottom: 20rpx;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+.user-avatar {
+    width: 100%;
+    height: 100%;
+}
+.user-name {
+    color: #fff;
+    font-size: 32rpx;
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.login-btn {
+    color: #fff;
+    font-size: 32rpx;
+    padding: 10rpx 40rpx;
+    border: 1px solid #fff;
+    border-radius: 30rpx;
+}
+/* 未登录状态下的登录提示 */
+.login-prompt {
+    background-color: #fff;
+    border-radius: 16rpx;
+    margin: 0 20rpx 20rpx;
+    padding: 40rpx 30rpx;
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.login-prompt-text {
+    font-size: 28rpx;
+    color: #666;
+    margin-bottom: 30rpx;
+}
+.primary-login-btn {
+    background-color: var(--primary-color, #ff6b81);
+    color: #fff;
+    font-size: 30rpx;
+    width: 80%;
+    padding: 20rpx 0;
+    border-radius: 40rpx;
+    border: none;
+}
+/* 订单信息 */
+.order-section {
+    background-color: #fff;
+    border-radius: 16rpx;
+    margin: 0 20rpx 20rpx;
+    padding: 30rpx;
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+}
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30rpx;
+}
+.section-title {
+    font-size: 32rpx;
+    font-weight: bold;
+    color: #333;
+}
+.section-more {
+    font-size: 26rpx;
+    color: #999;
+    display: flex;
+    align-items: center;
+}
+.arrow {
+    margin-left: 6rpx;
+}
+.order-types {
+    display: flex;
+    justify-content: space-between;
+}
+.order-type {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 24rpx;
+    color: #666;
+}
+.order-icon-wrap {
+    position: relative;
+    margin-bottom: 10rpx;
+}
+.order-icon {
+    width: 64rpx;
+    height: 64rpx;
+}
+.order-badge {
+    position: absolute;
+    top: -10rpx;
+    right: -10rpx;
+    min-width: 36rpx;
+    height: 36rpx;
+    background-color: var(--primary-color);
+    color: #fff;
+    border-radius: 18rpx;
+    font-size: 22rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 8rpx;
+}
+/* 常用功能 */
+.features {
+    background-color: #fff;
+    border-radius: 16rpx;
+    margin: 0 20rpx 20rpx;
+    padding: 0 30rpx;
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+}
+.feature-item {
+    display: flex;
+    align-items: center;
+    padding: 30rpx 0;
+    border-bottom: 1px solid #f5f5f5;
+}
+.feature-item:last-child {
+    border-bottom: none;
+}
+.feature-icon {
+    width: 48rpx;
+    height: 48rpx;
+    margin-right: 20rpx;
+}
+.feature-item text {
+    font-size: 28rpx;
+    color: #333;
+}
+.feature-item .arrow {
+    margin-left: auto;
+    color: #999;
+}
+/* 版本信息 */
+.version-info {
+    text-align: center;
+    padding: 40rpx 0;
+    color: #999;
+    font-size: 24rpx;
+}
+
