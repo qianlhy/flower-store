@@ -80,13 +80,54 @@ public class OrderController {
     @GetMapping("/{id}")
     public Result<Map<String, Object>> getById(@PathVariable Long id) {
         Order order = orderService.getById(id);
+        if (order == null) {
+            return Result.error("订单不存在");
+        }
         List<OrderItem> items = orderService.getOrderItems(id);
-        
+
         Map<String, Object> result = new HashMap<>();
-        result.put("order", order);
+        // 返回订单基本信息（包含 statusText）
+        Map<String, Object> orderMap = new HashMap<>();
+        orderMap.put("id", order.getId());
+        orderMap.put("orderNo", order.getOrderNo());
+        orderMap.put("userId", order.getUserId());
+        orderMap.put("receiverName", order.getReceiverName());
+        orderMap.put("receiverPhone", order.getReceiverPhone());
+        orderMap.put("province", order.getProvince());
+        orderMap.put("city", order.getCity());
+        orderMap.put("district", order.getDistrict());
+        orderMap.put("address", order.getAddress());
+        orderMap.put("totalPrice", order.getTotalPrice());
+        orderMap.put("freight", order.getFreight());
+        orderMap.put("actualPayment", order.getActualPayment());
+        orderMap.put("paymentMethod", order.getPaymentMethod());
+        orderMap.put("remark", order.getRemark());
+        orderMap.put("status", order.getStatus());
+        orderMap.put("statusText", getStatusText(order.getStatus()));
+        orderMap.put("payTime", order.getPayTime());
+        orderMap.put("deliveryTime", order.getDeliveryTime());
+        orderMap.put("finishTime", order.getFinishTime());
+        orderMap.put("createTime", order.getCreateTime());
+        orderMap.put("updateTime", order.getUpdateTime());
+
+        result.put("order", orderMap);
         result.put("items", items);
-        
+
         return Result.success(result);
+    }
+
+    /**
+     * 将数字状态转换为中文文本
+     */
+    private String getStatusText(Integer status) {
+        if (status == null) return "";
+        switch (status) {
+            case 2: return "待发货";
+            case 3: return "待收货";
+            case 4: return "已完成";
+            case 5: return "已取消";
+            default: return "待发货";
+        }
     }
 
     /**
@@ -101,17 +142,20 @@ public class OrderController {
             
             Order order = new Order();
             order.setUserId(userId);
-            order.setReceiverName(params.get("receiverName").toString());
-            order.setReceiverPhone(params.get("receiverPhone").toString());
-            order.setProvince(params.get("province").toString());
-            order.setCity(params.get("city").toString());
-            order.setDistrict(params.get("district").toString());
-            order.setAddress(params.get("address").toString());
-            order.setPaymentMethod(params.get("paymentMethod").toString());
-            order.setRemark(params.get("remark") != null ? params.get("remark").toString() : "");
+            order.setReceiverName(getStringValue(params, "receiverName"));
+            order.setReceiverPhone(getStringValue(params, "receiverPhone"));
+            order.setProvince(getStringValue(params, "province"));
+            order.setCity(getStringValue(params, "city"));
+            order.setDistrict(getStringValue(params, "district"));
+            order.setAddress(getStringValue(params, "address"));
+            order.setPaymentMethod(getStringValue(params, "paymentMethod", "online"));
+            order.setRemark(getStringValue(params, "remark"));
             
             @SuppressWarnings("unchecked")
             List<Map<String, Object>> items = (List<Map<String, Object>>) params.get("items");
+            if (items == null || items.isEmpty()) {
+                return Result.error("订单商品不能为空");
+            }
             
             Order newOrder = orderService.createOrder(order, items);
             
@@ -124,8 +168,27 @@ public class OrderController {
             
             return Result.success(newOrder);
         } catch (Exception e) {
-            return Result.error(e.getMessage());
+            e.printStackTrace();
+            return Result.error("创建订单失败: " + e.getMessage());
         }
+    }
+    
+    /**
+     * 从Map中获取字符串值，处理null情况
+     */
+    private String getStringValue(Map<String, Object> params, String key) {
+        return getStringValue(params, key, "");
+    }
+    
+    /**
+     * 从Map中获取字符串值，带默认值
+     */
+    private String getStringValue(Map<String, Object> params, String key, String defaultValue) {
+        Object value = params.get(key);
+        if (value == null) {
+            return defaultValue;
+        }
+        return value.toString();
     }
 
     /**

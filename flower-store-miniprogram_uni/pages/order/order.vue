@@ -44,28 +44,6 @@
             </view>
         </view>
 
-        <!-- 支付方式 -->
-        <view class="payment-section">
-            <view class="section-title">支付方式</view>
-            <view class="payment-options">
-                <view :class="'payment-option ' + (paymentMethod === 'online' ? 'selected' : '')" @tap="switchPaymentMethod" data-method="online">
-                    <image src="/static/images/icons/online-pay.png" class="payment-icon"></image>
-                    <text class="payment-name">在线支付</text>
-                    <view class="radio-box">
-                        <view :class="'radio ' + (paymentMethod === 'online' ? 'selected' : '')"></view>
-                    </view>
-                </view>
-
-                <view :class="'payment-option ' + (paymentMethod === 'delivery' ? 'selected' : '')" @tap="switchPaymentMethod" data-method="delivery">
-                    <image src="/static/images/icons/delivery-pay.png" class="payment-icon"></image>
-                    <text class="payment-name">货到付款</text>
-                    <view class="radio-box">
-                        <view :class="'radio ' + (paymentMethod === 'delivery' ? 'selected' : '')"></view>
-                    </view>
-                </view>
-            </view>
-        </view>
-
         <!-- 订单备注 -->
         <view class="remark-section">
             <view class="section-title">订单备注</view>
@@ -117,7 +95,6 @@ export default {
             actualPayment: 0,
             selectedAddress: null,
             hasAddress: false,
-            paymentMethod: 'online',
             remark: '',
             isLoading: false
         };
@@ -223,14 +200,6 @@ export default {
             });
         },
 
-        // 切换支付方式
-        switchPaymentMethod: function (e) {
-            const { method } = e.currentTarget.dataset;
-            this.setData({
-                paymentMethod: method
-            });
-        },
-
         // 输入备注
         inputRemark: function (e) {
             this.setData({
@@ -240,7 +209,7 @@ export default {
 
         // 提交订单
         submitOrder: function () {
-            const { selectedAddress, orderItems, paymentMethod, remark } = this;
+            const { selectedAddress, orderItems, remark } = this;
 
             // 校验收货地址
             if (!selectedAddress) {
@@ -264,7 +233,6 @@ export default {
                 city: selectedAddress.city,
                 district: selectedAddress.district,
                 address: selectedAddress.address,
-                paymentMethod: paymentMethod,
                 remark: remark,
                 items: orderItems.map((item) => ({
                     productId: item.productId,
@@ -462,73 +430,6 @@ export default {
 .count {
     font-size: 28rpx;
     color: #666;
-}
-
-/* 支付方式 */
-.payment-section {
-    background-color: #fff;
-    margin-bottom: 20rpx;
-    padding: 0 30rpx;
-}
-
-.payment-options {
-    padding-bottom: 20rpx;
-}
-
-.payment-option {
-    display: flex;
-    align-items: center;
-    padding: 20rpx 0;
-    border-bottom: 1px solid #f5f5f5;
-}
-
-.payment-option:last-child {
-    border-bottom: none;
-}
-
-.payment-icon {
-    width: 48rpx;
-    height: 48rpx;
-    margin-right: 20rpx;
-}
-
-.payment-name {
-    flex: 1;
-    font-size: 28rpx;
-    color: #333;
-}
-
-.radio-box {
-    width: 40rpx;
-    height: 40rpx;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.radio {
-    width: 30rpx;
-    height: 30rpx;
-    border-radius: 50%;
-    border: 1px solid #ddd;
-    box-sizing: border-box;
-    position: relative;
-}
-
-.radio.selected {
-    border-color: var(--primary-color);
-}
-
-.radio.selected::after {
-    content: '';
-    position: absolute;
-    width: 16rpx;
-    height: 16rpx;
-    border-radius: 50%;
-    background-color: var(--primary-color);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 /* 订单备注 */

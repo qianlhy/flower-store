@@ -74,25 +74,19 @@
 
         <!-- 底部操作按钮 -->
         <view class="footer">
-            <!-- 待付款 -->
-            <block v-if="orderInfo.status === '待付款'">
-                <button class="btn cancel" @tap="cancelOrder">取消订单</button>
-                <button class="btn primary" @tap="goToPay">去支付</button>
-            </block>
-
             <!-- 待发货 -->
-            <block v-else-if="orderInfo.status === '待发货'">
+            <block v-if="orderInfo.status === '待发货'">
                 <button class="btn" @tap="contactService">联系客服</button>
             </block>
 
             <!-- 待收货 -->
-            <block v-else-if="orderInfo.status === '待收货'">
+            <block v-if="orderInfo.status === '待收货'">
                 <button class="btn" @tap="checkLogistics">查看物流</button>
                 <button class="btn primary" @tap="confirmReceipt">确认收货</button>
             </block>
 
             <!-- 已完成 -->
-            <block v-else-if="orderInfo.status === '已完成'">
+            <block v-if="orderInfo.status === '已完成'">
                 <button class="btn" @tap="contactService">联系客服</button>
             </block>
         </view>

@@ -51,30 +51,24 @@
                     </view>
 
                     <view class="order-actions">
-                        <!-- 待付款 -->
-                        <block v-if="item.statusText === '待付款'">
-                            <view class="action-btn outline" @tap="cancelOrder" :data-id="item.id">取消订单</view>
-                            <view class="action-btn primary" @tap="goToPay" :data-id="item.id" :data-amount="item.actualPayment">去支付</view>
-                        </block>
-
                         <!-- 待发货 -->
-                        <block v-else-if="item.statusText === '待发货'">
+                        <block v-if="item.statusText === '待发货'">
                             <view class="action-btn outline" @tap="checkLogistics">查看物流</view>
                         </block>
 
                         <!-- 待收货 -->
-                        <block v-else-if="item.statusText === '待收货'">
+                        <block v-if="item.statusText === '待收货'">
                             <view class="action-btn outline" @tap="checkLogistics">查看物流</view>
                             <view class="action-btn primary" @tap="confirmReceipt" :data-id="item.id">确认收货</view>
                         </block>
 
                         <!-- 已完成 -->
-                        <block v-else-if="item.statusText === '已完成'">
+                        <block v-if="item.statusText === '已完成'">
                             <view class="action-btn outline" @tap="checkLogistics">查看物流</view>
                         </block>
 
                         <!-- 已取消 -->
-                        <block v-else-if="item.statusText === '已取消'">
+                        <block v-if="item.statusText === '已取消'">
                             <view class="action-btn outline" @tap="goToOrderDetail" :data-id="item.id">订单详情</view>
                         </block>
                     </view>
@@ -98,10 +92,6 @@ export default {
                     name: '全部'
                 },
                 {
-                    id: 1,
-                    name: '待付款'
-                },
-                {
                     id: 2,
                     name: '待发货'
                 },
@@ -122,8 +112,6 @@ export default {
             statusMap: {
                 0: null,
                 // 全部
-                1: 1,
-                // 待付款
                 2: 2,
                 // 待发货
                 3: 3,
@@ -149,7 +137,6 @@ export default {
         // 如果从外部传入了状态参数，则切换到对应标签
         if (options.status) {
             const statusMap = {
-                待付款: 1,
                 待发货: 2,
                 待收货: 3,
                 已完成: 4,
@@ -278,14 +265,6 @@ export default {
                             });
                     }
                 }
-            });
-        },
-
-        // 去支付
-        goToPay: function (e) {
-            const { id, amount } = e.currentTarget.dataset;
-            uni.navigateTo({
-                url: `/pages/order/payment?id=${id}&amount=${amount}`
             });
         },
 

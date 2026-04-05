@@ -9,7 +9,6 @@
           @change="fetchData"
           style="width: 200px"
         >
-          <el-option label="待付款" :value="1" />
           <el-option label="待发货" :value="2" />
           <el-option label="已发货" :value="3" />
           <el-option label="已完成" :value="4" />
@@ -113,7 +112,6 @@ const fetchData = async () => {
 
 const getStatusType = (status) => {
   const map = {
-    1: 'warning',
     2: 'primary',
     3: 'success',
     4: 'info',
@@ -124,7 +122,6 @@ const getStatusType = (status) => {
 
 const getStatusText = (status) => {
   const map = {
-    1: '待付款',
     2: '待发货',
     3: '已发货',
     4: '已完成',

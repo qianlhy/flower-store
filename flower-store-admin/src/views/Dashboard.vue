@@ -9,7 +9,7 @@
             </div>
             <div class="stat-info">
               <div class="stat-value">{{ statistics.pending || 0 }}</div>
-              <div class="stat-label">待付款订单</div>
+              <div class="stat-label">待处理订单</div>
             </div>
           </div>
         </el-card>

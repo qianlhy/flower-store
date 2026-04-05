@@ -23,7 +23,7 @@
           <span style="color: #f56c6c; font-weight: bold">¥{{ order.actualPayment }}</span>
         </el-descriptions-item>
         <el-descriptions-item label="支付方式">
-          {{ order.paymentMethod === 'online' ? '在线支付' : '货到付款' }}
+          {{ order.paymentMethod === 'online' ? '在线支付' : '货到付款' }}（无需实际支付）
         </el-descriptions-item>
         <el-descriptions-item label="订单备注" :span="2">
           {{ order.remark || '无' }}
@@ -88,7 +88,6 @@ const fetchData = async () => {
 
 const getStatusType = (status) => {
   const map = {
-    1: 'warning',
     2: 'primary',
     3: 'success',
     4: 'info',
@@ -99,7 +98,6 @@ const getStatusType = (status) => {
 
 const getStatusText = (status) => {
   const map = {
-    1: '待付款',
     2: '待发货',
     3: '已发货',
     4: '已完成',

@@ -59,14 +59,7 @@
 		{
 			"path": "pages/order/order",
 			"style": {
-				"navigationBarTitleText": "确认订单",
-				"usingComponents": {}
-			}
-		},
-		{
-			"path": "pages/order/payment",
-			"style": {
-				"navigationBarTitleText": "订单支付",
+				"navigationBarTitleText": "提交订单",
 				"usingComponents": {}
 			}
 		},

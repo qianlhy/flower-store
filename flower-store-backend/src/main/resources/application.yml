@@ -11,7 +11,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/flower_store?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
-    password: 123456
+    password: root
     druid:
       initial-size: 5
       min-idle: 5
@@ -53,10 +53,11 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
 
-# 微信小程序配置
+# 微信小程序配置（须与微信公众平台该小程序的 AppID、AppSecret 完全一致，否则 jscode2session 会失败）
 wechat:
-  appid: wxcfa41f1d1bc716a8
-  secret: 088d0c9a3a536cad7501f197a06d60ef
+  appid: wx0c6aa99a5555b9a0
+  secret: fbb90133095eeb282821f86365ddbd04
+    #088d0c9a3a536cad7501f197a06d60ef
 
 # JWT配置
 jwt:

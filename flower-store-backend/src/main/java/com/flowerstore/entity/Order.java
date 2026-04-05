@@ -50,13 +50,13 @@ public class Order implements Serializable {
     /** 实付金额 */
     private BigDecimal actualPayment;
     
-    /** 支付方式：online-在线支付，delivery-货到付款 */
+    /** 支付方式：online-在线支付，delivery-货到付款（海外版无需实际支付） */
     private String paymentMethod;
     
     /** 订单备注 */
     private String remark;
     
-    /** 订单状态：1-待付款，2-待发货，3-已发货，4-已完成，5-已取消 */
+    /** 订单状态：1-已取消（已废弃，不再使用），2-待发货，3-已发货，4-已完成，5-已取消 */
     private Integer status;
     
     /** 支付时间 */

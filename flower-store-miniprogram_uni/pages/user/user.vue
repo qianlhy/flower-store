@@ -37,13 +37,6 @@
                 </view>
             </view>
             <view class="order-types">
-                <view class="order-type" @tap="viewOrdersByStatus" data-status="待付款">
-                    <view class="order-icon-wrap">
-                        <image class="order-icon" src="/static/images/icons/unpaid.png"></image>
-                        <view class="order-badge" v-if="orderStats.unpaid > 0">{{ orderStats.unpaid }}</view>
-                    </view>
-                    <text>待付款</text>
-                </view>
                 <view class="order-type" @tap="viewOrdersByStatus" data-status="待发货">
                     <view class="order-icon-wrap">
                         <image class="order-icon" src="/static/images/icons/unshipped.png"></image>
@@ -118,7 +111,6 @@ export default {
             userInfo: null,
             isLogin: false,
             orderStats: {
-                unpaid: 0,
                 unshipped: 0,
                 shipped: 0,
                 completed: 0
@@ -256,7 +248,6 @@ export default {
             }
             const { status } = e.currentTarget.dataset;
             const statusMap = {
-                待付款: '待付款',
                 待发货: '待发货',
                 待收货: '待收货',
                 已完成: '已完成'

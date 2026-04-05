@@ -83,6 +83,7 @@ public class OrderService {
             orderMap.put("paymentMethod", order.getPaymentMethod());
             orderMap.put("remark", order.getRemark());
             orderMap.put("status", order.getStatus());
+            orderMap.put("statusText", getStatusText(order.getStatus()));
             orderMap.put("payTime", order.getPayTime());
             orderMap.put("deliveryTime", order.getDeliveryTime());
             orderMap.put("finishTime", order.getFinishTime());
@@ -130,7 +131,8 @@ public class OrderService {
         // 生成订单号
         String orderNo = generateOrderNo();
         order.setOrderNo(orderNo);
-        order.setStatus(1); // 待付款
+        order.setStatus(2); // 待发货（下单即视为已付款，无需实际支付）
+        order.setPayTime(LocalDateTime.now()); // 下单即记录支付时间
 
         // 计算订单金额
         BigDecimal totalPrice = BigDecimal.ZERO;
@@ -265,6 +267,20 @@ public class OrderService {
         result.put("completed", completedCount);
         
         return result;
+    }
+
+    /**
+     * 将数字状态转换为中文文本
+     */
+    private String getStatusText(Integer status) {
+        if (status == null) return "";
+        switch (status) {
+            case 2: return "待发货";
+            case 3: return "待收货";
+            case 4: return "已完成";
+            case 5: return "已取消";
+            default: return "待发货";
+        }
     }
 }
 
