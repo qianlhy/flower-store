@@ -52,3 +52,5 @@ diy-bracelet-backend-code/diy-common/target/classes/com/diy/constant/JwtClaimsCo
 # 小程序编译产物
 flower-store-miniprogram_uni/unpackage/
 flower-store-miniprogram_uni/transform.log
+flower-store-miniprogram_uni/dist/
+flower-store-admin/dist/
