@@ -85,6 +85,7 @@
 // pages/settings/settings.js
 const app = getApp();
 const userApi = require('../../api/user');
+const { BASE_URL } = require('../../utils/request');
 export default {
     data() {
         return {
@@ -227,7 +228,7 @@ export default {
                 mask: true
             });
             uni.uploadFile({
-                url: 'http://localhost:8080/api/file/upload',
+                url: `${BASE_URL}/file/upload`,
                 filePath: avatarUrl,
                 name: 'file',
                 header: {
@@ -277,7 +278,7 @@ export default {
 
                     // 上传到服务器
                     uni.uploadFile({
-                        url: 'http://localhost:8080/api/file/upload',
+                        url: `${BASE_URL}/file/upload`,
                         filePath: tempFilePath,
                         name: 'file',
                         header: {

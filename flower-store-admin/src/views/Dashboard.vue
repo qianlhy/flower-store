@@ -93,9 +93,10 @@ const fetchStatistics = async () => {
   }
 }
 
-// 连接WebSocket
+// 连接WebSocket（与当前页面同协议、同主机，需 Nginx 对 /api/ws/ 做 WebSocket 反代）
 const connectWebSocket = () => {
-  const wsUrl = 'ws://localhost:8080/api/ws/order/notification'
+  const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
+  const wsUrl = `${proto}//${window.location.host}/api/ws/order/notification`
   ws = new WebSocket(wsUrl)
   
   ws.onopen = () => {

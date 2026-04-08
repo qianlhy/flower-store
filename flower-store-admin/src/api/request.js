@@ -3,6 +3,7 @@ import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/stores/user'
 import router from '@/router'
 
+// 开发与生产均使用相对路径 /api：开发走 Vite 代理，生产走 Nginx 反代，避免 http/https 混用触发跨域
 const request = axios.create({
   baseURL: '/api',
   timeout: 10000
