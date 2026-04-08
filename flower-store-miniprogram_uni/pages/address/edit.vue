@@ -14,18 +14,6 @@
                 <input class="form-input" type="number" placeholder="请输入手机号码" maxlength="11" :value="phone" @input="inputPhone" />
             </view>
 
-            <!-- 所在地区 -->
-            <view class="form-item">
-                <view class="form-label">所在地区</view>
-                <region-picker @change="bindRegionChange" :value="region" class="region-picker">
-                    <view class="picker-content">
-                        <text v-if="region[0] && region[1] && region[2]">{{ region[0] }} {{ region[1] }} {{ region[2] }}</text>
-                        <text v-else class="placeholder">请选择所在地区</text>
-                        <text class="arrow">></text>
-                    </view>
-                </region-picker>
-            </view>
-
             <!-- 详细地址 -->
             <view class="form-item">
                 <view class="form-label">详细地址</view>
@@ -62,13 +50,9 @@ export default {
             id: '',
             name: '',
             phone: '',
-            province: '',
-            city: '',
-            district: '',
             address: '',
             isDefault: false,
             isEdit: false,
-            region: ['', '', ''],
             isLoading: false
         };
     }
@@ -95,12 +79,8 @@ export default {
                     this.setData({
                         name: address.name,
                         phone: address.phone,
-                        province: address.province,
-                        city: address.city,
-                        district: address.district,
                         address: address.address,
-                        isDefault: address.isDefault === 1,
-                        region: [address.province, address.city, address.district]
+                        isDefault: address.isDefault === 1
                     });
                 })
                 .catch((err) => {
@@ -122,17 +102,6 @@ export default {
             });
         },
 
-        // 选择地区
-        bindRegionChange: function (e) {
-            const region = e.detail.value;
-            this.setData({
-                region,
-                province: region[0],
-                city: region[1],
-                district: region[2]
-            });
-        },
-
         // 输入详细地址
         inputAddress: function (e) {
             this.setData({
@@ -149,7 +118,7 @@ export default {
 
         // 保存地址
         saveAddress: function () {
-            const { name, phone, province, city, district, address, isDefault, isEdit, id } = this;
+            const { name, phone, address, isDefault, isEdit, id } = this;
 
             // 表单校验
             if (!name) {
@@ -173,13 +142,6 @@ export default {
                 });
                 return;
             }
-            if (!province || !city || !district) {
-                uni.showToast({
-                    title: '请选择所在地区',
-                    icon: 'none'
-                });
-                return;
-            }
             if (!address) {
                 uni.showToast({
                     title: '请输入详细地址',
@@ -193,13 +155,13 @@ export default {
                 isLoading: true
             });
 
-            // 构建地址对象
+            // 构建地址对象（俄罗斯地址不需要省市区）
             const addressData = {
                 name,
                 phone,
-                province,
-                city,
-                district,
+                province: '',
+                city: '',
+                district: '',
                 address,
                 isDefault: isDefault ? 1 : 0
             };
@@ -291,29 +253,6 @@ export default {
     height: 160rpx;
     font-size: 28rpx;
     color: #333;
-}
-
-/* 地区选择器 */
-.region-picker {
-    width: 100%;
-}
-
-.picker-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 80rpx;
-    font-size: 28rpx;
-    color: #333;
-}
-
-.placeholder {
-    color: #999;
-}
-
-.arrow {
-    color: #999;
-    font-size: 28rpx;
 }
 
 /* 默认地址开关 */

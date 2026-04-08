@@ -10,7 +10,7 @@
                     <text class="name">{{ orderInfo.order.receiverName }}</text>
                     <text class="phone">{{ orderInfo.order.receiverPhone }}</text>
                 </view>
-                <view class="address-detail">{{ orderInfo.order.province }}{{ orderInfo.order.city }}{{ orderInfo.order.district }}{{ orderInfo.order.address }}</view>
+                <view class="address-detail">{{ orderInfo.order.address }}</view>
             </view>
         </view>
 
@@ -103,9 +103,6 @@ export default {
             isLoading: true,
             receiverName: '',
             receiverPhone: '',
-            province: '',
-            city: '',
-            district: '',
             address: '',
             createTime: '',
             paymentMethod: '',

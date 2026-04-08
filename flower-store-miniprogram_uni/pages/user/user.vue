@@ -98,6 +98,35 @@
         <view class="version-info">
             <text>鲜花铺子 v1.0.0</text>
         </view>
+
+        <!-- 客服联系弹窗 -->
+        <view class="contact-modal-mask" v-if="showContactModal" @tap="closeContactModal"></view>
+        <view :class="'contact-modal ' + (showContactModal ? 'show' : '')">
+            <view class="contact-modal-header">
+                <text>联系客服</text>
+                <view class="contact-modal-close" @tap="closeContactModal">×</view>
+            </view>
+            <view class="contact-modal-body">
+                <!-- 微信二维码区域 -->
+                <view class="qr-section">
+                    <image class="qr-image" src="/static/images/wechat-qr.png" mode="aspectFit" show-menu-by-longpress></image>
+                    <text class="qr-tip">长按识别二维码添加微信客服</text>
+                </view>
+                
+                <!-- 分隔线 -->
+                <view class="divider"></view>
+                
+                <!-- 电话区域 -->
+                <view class="phone-section">
+                    <text class="phone-label">或拨打客服电话</text>
+                    <view class="phone-number" @tap="makePhoneCall">
+                        <text class="phone-icon">📞</text>
+                        <text class="phone-text">89801888818</text>
+                    </view>
+                    <text class="phone-time">服务时间：9:00 - 21:00</text>
+                </view>
+            </view>
+        </view>
     </view>
 </template>
 
@@ -114,7 +143,8 @@ export default {
                 unshipped: 0,
                 shipped: 0,
                 completed: 0
-            }
+            },
+            showContactModal: false
         };
     }
     /**
@@ -271,11 +301,28 @@ export default {
             });
         },
 
-        // 联系客服
+        // 联系客服 - 显示弹窗
         contactService: function () {
-            uni.makePhoneCall({
-                phoneNumber: '1234567890'
+            this.setData({
+                showContactModal: true
             });
+        },
+
+        // 关闭客服弹窗
+        closeContactModal: function () {
+            this.setData({
+                showContactModal: false
+            });
+        },
+
+        // 拨打电话
+        makePhoneCall: function () {
+            this.closeContactModal();
+            setTimeout(() => {
+                uni.makePhoneCall({
+                    phoneNumber: '89801888818'
+                });
+            }, 300);
         }
     }
 };
@@ -485,5 +532,127 @@ export default {
     padding: 40rpx 0;
     color: #999;
     font-size: 24rpx;
+}
+
+/* 客服联系弹窗 */
+.contact-modal-mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.contact-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    width: 80%;
+    max-width: 600rpx;
+    background-color: #fff;
+    border-radius: 24rpx;
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 1001;
+}
+
+.contact-modal.show {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+.contact-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30rpx;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.contact-modal-header text {
+    font-size: 32rpx;
+    font-weight: bold;
+    color: #333;
+}
+
+.contact-modal-close {
+    font-size: 40rpx;
+    color: #999;
+    width: 60rpx;
+    height: 60rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-modal-body {
+    padding: 40rpx;
+}
+
+/* 二维码区域 */
+.qr-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30rpx;
+}
+
+.qr-section .qr-image {
+    width: 360rpx;
+    height: 360rpx;
+    margin-bottom: 20rpx;
+}
+
+.qr-section .qr-tip {
+    font-size: 26rpx;
+    color: #999;
+}
+
+/* 分隔线 */
+.divider {
+    height: 1px;
+    background-color: #eee;
+    margin: 30rpx 0;
+}
+
+/* 电话区域 */
+.phone-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.phone-label {
+    font-size: 26rpx;
+    color: #999;
+    margin-bottom: 20rpx;
+}
+
+.phone-number {
+    display: flex;
+    align-items: center;
+    padding: 20rpx 40rpx;
+    background-color: #f0f9ff;
+    border-radius: 50rpx;
+    margin-bottom: 16rpx;
+}
+
+.phone-icon {
+    font-size: 36rpx;
+    margin-right: 12rpx;
+}
+
+.phone-text {
+    font-size: 36rpx;
+    font-weight: bold;
+    color: #1989fa;
+}
+
+.phone-time {
+    font-size: 24rpx;
+    color: #ccc;
 }
 </style>

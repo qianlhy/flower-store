@@ -19,7 +19,7 @@
                     </view>
                     <view class="address">
                         <text class="default-tag" v-if="selectedAddress.isDefault">默认</text>
-                        <text class="address-text">{{ selectedAddress.province }}{{ selectedAddress.city }}{{ selectedAddress.district }}{{ selectedAddress.address }}</text>
+                        <text class="address-text">{{ selectedAddress.address }}</text>
                     </view>
                 </view>
                 <view class="arrow">></view>
@@ -229,9 +229,6 @@ export default {
             const orderData = {
                 receiverName: selectedAddress.name,
                 receiverPhone: selectedAddress.phone,
-                province: selectedAddress.province,
-                city: selectedAddress.city,
-                district: selectedAddress.district,
                 address: selectedAddress.address,
                 remark: remark,
                 items: orderItems.map((item) => ({

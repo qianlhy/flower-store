@@ -18,7 +18,7 @@
                         <text class="phone">{{ item.phone }}</text>
                         <text class="default-tag" v-if="item.isDefault">默认</text>
                     </view>
-                    <view class="address-detail">{{ item.province }}{{ item.city }}{{ item.district }}{{ item.address }}</view>
+                    <view class="address-detail">{{ item.address }}</view>
                 </view>
 
                 <!-- 地址操作 -->

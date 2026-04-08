@@ -10,11 +10,6 @@
                 </view>
             </view>
 
-            <!-- 背景音乐控制 -->
-            <view class="music-control" @tap="toggleBackgroundAudio">
-                <image :class="'music-icon ' + (backgroundAudioPlaying ? 'playing' : '')" src="/static/images/icons/music.png" />
-            </view>
-
             <!-- 轮播图 -->
             <swiper class="banner" :indicator-dots="true" :autoplay="true" interval="3000" duration="500" :circular="true">
                 <swiper-item v-for="(item, index) in banners" :key="index">
@@ -133,8 +128,7 @@ export default {
             promotions: [],
             recommendProducts: [],
             newProducts: [],
-            showToast: false,
-            backgroundAudioPlaying: false
+            showToast: false
         };
     },
     onLoad: function () {
@@ -149,40 +143,11 @@ export default {
 
         // 获取新品上市
         this.getNewProducts();
-        this.backgroundAudioManager = uni.getBackgroundAudioManager();
-        this.setupBackgroundAudio();
     },
     onShow: function () {
         // 页面显示时可以刷新数据
     },
     methods: {
-        setupBackgroundAudio: function () {
-            this.backgroundAudioManager.title = '轻音乐';
-            this.backgroundAudioManager.epname = '鲜花店背景音乐';
-            this.backgroundAudioManager.singer = '未知';
-            this.backgroundAudioManager.coverImgUrl = '/images/music.png';
-            // 设置背景音乐，需要使用网络地址
-            this.backgroundAudioManager.src = 'https://miniprogram.lovenice.cn/1.mp3';
-            this.backgroundAudioManager.onPlay(() => {
-                this.setData({
-                    backgroundAudioPlaying: true
-                });
-            });
-            this.backgroundAudioManager.onPause(() => {
-                this.setData({
-                    backgroundAudioPlaying: false
-                });
-            });
-        },
-
-        toggleBackgroundAudio: function () {
-            if (this.backgroundAudioPlaying) {
-                this.backgroundAudioManager.pause();
-            } else {
-                this.backgroundAudioManager.play();
-            }
-        },
-
         // 获取分类数据
         getCategories: function () {
             categoryApi
@@ -385,39 +350,6 @@ export default {
     display: flex;
     align-items: center;
     padding: 0 30rpx;
-}
-
-/* 音乐控制 */
-.music-control {
-    position: fixed;
-    top: 360rpx;
-    right: 20rpx;
-    z-index: 999;
-    width: 60rpx;
-    height: 60rpx;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.music-icon {
-    width: 40rpx;
-    height: 40rpx;
-}
-
-.music-icon.playing {
-    animation: rotate 3s linear infinite;
-}
-
-@keyframes rotate {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
 }
 
 .search-placeholder {
