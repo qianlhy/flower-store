@@ -43,7 +43,7 @@
       <el-table :data="items" border>
         <el-table-column prop="productImage" label="商品图片" width="100">
           <template #default="{ row }">
-            <el-image :src="row.productImage" style="width: 60px; height: 60px" fit="cover" />
+            <el-image :src="getImageUrl(row.productImage)" style="width: 60px; height: 60px" fit="cover" />
           </template>
         </el-table-column>
         <el-table-column prop="productName" label="商品名称" />
@@ -71,6 +71,7 @@
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { getOrderById } from '@/api/order'
+import { getImageUrl } from '@/utils/image'
 
 const route = useRoute()
 const order = ref(null)

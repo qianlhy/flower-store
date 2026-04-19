@@ -70,10 +70,10 @@ jwt:
 # 文件上传配置
 file:
   upload:
-    path: /www/wwwroot/default/uploads/  # 上传文件保存路径
+    path: /www/wwwroot/default/uploads/  # 本地开发路径（部署到Linux服务器时改为 /www/wwwroot/default/uploads/）
     static-pattern: /uploads/**  # 静态资源访问路径
     max-size: 10485760  # 最大文件大小，10MB
-    domain: https://ru.ruasiagarden.com  # 与 FileService 内 /api/uploads/ 拼接为完整文件 URL
+    domain: https://ru.ruasiagarden.com  # 本地开发域名（部署时改为 https://ru.ruasiagarden.com）
 
 # 订单通知配置
 order:

@@ -13,7 +13,7 @@
         <el-table-column prop="name" label="分类名称" />
         <el-table-column prop="icon" label="图标" width="100">
           <template #default="{ row }">
-            <el-image :src="row.icon" style="width: 40px; height: 40px" fit="cover" />
+            <el-image :src="getImageUrl(row.icon)" style="width: 40px; height: 40px" fit="cover" />
           </template>
         </el-table-column>
         <el-table-column prop="sort" label="排序" width="100" />
@@ -102,6 +102,7 @@ import {
   deleteCategory
 } from '@/api/category'
 import { useUserStore } from '@/stores/user'
+import { getImageUrl } from '@/utils/image'
 
 const userStore = useUserStore()
 
@@ -223,16 +224,11 @@ const beforeUpload = (file) => {
 // 上传成功
 const handleUploadSuccess = (response) => {
   if (response.code === 200) {
-    form.value.icon = response.data.url
+    form.value.icon = response.data
     ElMessage.success('上传成功')
   } else {
     ElMessage.error(response.message || '上传失败')
   }
-}
-
-// 获取图片URL（已经是完整URL，直接返回）
-const getImageUrl = (url) => {
-  return url
 }
 
 onMounted(() => {

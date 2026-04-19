@@ -2,7 +2,31 @@
  * 网络请求工具
  */
 
-const BASE_URL = 'https://ru.ruasiagarden.com/api'; // 后端接口地址，请根据实际情况修改
+const BASE_URL = 'https://ru.ruasiagarden.com/api'; // 后端接口地址
+
+/**
+ * 将数据中残留的 localhost 图片URL统一修正为线上域名
+ */
+function fixImageUrls(data) {
+    if (!data) return data;
+    if (typeof data === 'string') {
+        if (data.includes('http://localhost:8080/api/uploads/')) {
+            return data.split('http://localhost:8080').join('https://ru.ruasiagarden.com');
+        }
+        return data;
+    }
+    if (Array.isArray(data)) {
+        return data.map(fixImageUrls);
+    }
+    if (typeof data === 'object') {
+        const result = {};
+        for (const key in data) {
+            result[key] = fixImageUrls(data[key]);
+        }
+        return result;
+    }
+    return data;
+}
 
 /**
  * 发送HTTP请求
@@ -21,7 +45,7 @@ function request(options) {
             success: (res) => {
                 if (res.statusCode === 200) {
                     if (res.data.code === 200) {
-                        resolve(res.data.data);
+                        resolve(fixImageUrls(res.data.data));
                     } else {
                         uni.showToast({
                             title: res.data.message || '请求失败',

@@ -6,6 +6,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
@@ -44,18 +47,14 @@ public class FileService {
 
         // 按日期创建子目录
         String dateDir = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-        String dirPath = uploadPath + dateDir;
+        Path dirPath = Paths.get(uploadPath, dateDir).toAbsolutePath().normalize();
 
         // 创建目录
-        File dir = new File(dirPath);
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
+        Files.createDirectories(dirPath);
 
-        // 保存文件
-        String filePath = dirPath + "/" + newFilename;
-        File dest = new File(filePath);
-        file.transferTo(dest);
+        // 保存文件（使用 toPath() 避免 Servlet Part.write() 的相对路径问题）
+        Path destPath = dirPath.resolve(newFilename);
+        file.transferTo(destPath);
 
         // 返回完整的URL地址
         String relativePath = "/api/uploads/" + dateDir + "/" + newFilename;
@@ -72,8 +71,8 @@ public class FileService {
 
         // 去除域名和访问路径前缀
         String path = filePath.replace(domain, "").replace("/api/uploads/", "");
-        String realPath = uploadPath + path;
-        File file = new File(realPath);
+        Path realPath = Paths.get(uploadPath, path).toAbsolutePath().normalize();
+        File file = realPath.toFile();
         if (file.exists()) {
             file.delete();
         }

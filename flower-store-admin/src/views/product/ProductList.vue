@@ -19,7 +19,7 @@
         <el-table-column prop="id" label="ID" width="80" />
         <el-table-column prop="image" label="商品图片" width="100">
           <template #default="{ row }">
-            <el-image :src="row.image" style="width: 60px; height: 60px" fit="cover" />
+            <el-image :src="getImageUrl(row.image)" style="width: 60px; height: 60px" fit="cover" />
           </template>
         </el-table-column>
         <el-table-column prop="name" label="商品名称" min-width="200" />
@@ -101,7 +101,7 @@
             :on-success="handleMainImageSuccess"
             :before-upload="beforeImageUpload"
           >
-            <img v-if="form.image" :src="form.image" class="image-preview" />
+            <img v-if="form.image" :src="getImageUrl(form.image)" class="image-preview" />
             <el-icon v-else class="image-uploader-icon"><Plus /></el-icon>
           </el-upload>
           <div style="color: #999; font-size: 12px; margin-top: 5px">
@@ -157,6 +157,7 @@ import {
 } from '@/api/product'
 import { getCategoryList } from '@/api/category'
 import { useUserStore } from '@/stores/user'
+import { getImageUrl } from '@/utils/image'
 
 const userStore = useUserStore()
 
@@ -255,7 +256,7 @@ const handleEdit = (row) => {
     const imageUrls = row.images.split(',')
     imageFileList.value = imageUrls.map((url, index) => ({
       name: `image${index}`,
-      url: url
+      url: getImageUrl(url)
     }))
   } else {
     imageFileList.value = []
@@ -322,7 +323,7 @@ const beforeImageUpload = (file) => {
 // 主图上传成功
 const handleMainImageSuccess = (response) => {
   if (response.code === 200) {
-    form.value.image = response.data.url
+    form.value.image = response.data
     ElMessage.success('上传成功') 
   } else {
     ElMessage.error(response.message || '上传失败')
@@ -334,7 +335,7 @@ const handleImagesSuccess = (response) => {
   if (response.code === 200) {
     imageFileList.value.push({
       name: Date.now().toString(),
-      url: response.data.url
+      url: response.data
     })
     // 更新表单中的images字段
     form.value.images = imageFileList.value.map(item => item.url).join(',')
