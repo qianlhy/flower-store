@@ -37,13 +37,13 @@
             </view>
 
             <!-- 用户协议 -->
-            <view class="agreement">
+            <!-- <view class="agreement">
                 <view :class="'checkbox ' + (isAgree ? 'checked' : '')" @tap="toggleAgree"></view>
                 <text class="agreement-text">我已阅读并同意</text>
                 <text class="agreement-link" @tap="goToUserAgreement">《用户协议》</text>
                 <text class="agreement-text">和</text>
                 <text class="agreement-link" @tap="goToPrivacyPolicy">《隐私政策》</text>
-            </view>
+            </view> -->
 
             <!-- 登录按钮 -->
             <button :class="'login-btn ' + (isLoading ? 'loading' : '')" @tap="passwordLogin" :disabled="isLoading">
